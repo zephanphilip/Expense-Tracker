@@ -2,6 +2,7 @@ require('dotenv').config()
 
 const express = require("express");
 const mongoose = require("mongoose");
+const path = require('path'); // Import the 'path' module
 const cors = require("cors");
 
 
