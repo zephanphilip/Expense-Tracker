@@ -1,0 +1,19 @@
+body{
+    background-color: #F7FFE5;
+}
+.navbarr{
+    margin: 0px;
+    width: 100%;
+    flex-direction: row;
+    display: flex;
+    height: 10%;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+.nav{
+    margin: 0;
+    
+}
+.login-logout{
+    padding-right: 100px;
+}

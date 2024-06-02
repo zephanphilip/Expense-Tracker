@@ -1,0 +1,32 @@
+.add1{
+
+  margin-left: 500px;
+  margin-right: 500px;
+  text-align: center;
+  background-color: #bffff9bf;
+  border-radius: 12px;
+  box-shadow: 0px 0px 3px 3px #000000 ;
+  color: white;
+
+}
+.profileform {
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .fields {
+    
+    justify-content: center;
+    align-content: center;
+    margin-bottom: 10px;
+  }
+  
+  .text1 {
+    text-align: left;
+  }
+  
+  .form {
+    width: 400px; /* adjust the width of the form as needed */
+  }
+  

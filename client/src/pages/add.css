@@ -1,0 +1,43 @@
+.add {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+  text-align: center;
+  background-color: #bffff9bf;
+  border-radius: 12px;
+  box-shadow: 0px 0px 3px 3px #000000;
+  color: white;
+  max-width: 90%;
+}
+
+/* Adjust margins and padding for larger screens */
+@media (min-width: 768px) {
+  .add {
+      max-width: 600px;
+  }
+}
+
+@media (min-width: 992px) {
+  .add {
+      max-width: 700px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .add {
+      max-width: 800px;
+  }
+}
+
+.btn-primary {
+  transition: none !important;
+  transform: none !important;
+}
+
+.add .nav-pills .nav-link.active {
+  background-color: #176B87;
+}
+
+.add .nav-pills .nav-link {
+  color: #001C30;
+}
