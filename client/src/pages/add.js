@@ -70,7 +70,7 @@ export const Add = () => {
 
           const income = {...incomeinfo}
 
-            const response = await fetch("http://localhost:3001/api/income/incomeadd",
+            const response = await fetch("https://expense-tracker-server-b8lj.onrender.com/api/income/incomeadd",
                 {
                   method: 'POST',
                   body: JSON.stringify(income),
@@ -97,7 +97,7 @@ export const Add = () => {
           }
 
 
-            const response = await fetch("http://localhost:3001/api/expense/expenseadd",
+            const response = await fetch("https://expense-tracker-server-b8lj.onrender.com/api/expense/expenseadd",
                 {
                   method: 'POST',
                   body: JSON.stringify(expenseinfo),

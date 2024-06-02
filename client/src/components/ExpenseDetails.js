@@ -17,7 +17,7 @@ function Expensedetails( {expenses} ) {
           return
         }
     
-        const response = await fetch('http://localhost:3001/api/expense/expensedel/'+expenses._id,{
+        const response = await fetch('https://expense-tracker-server-b8lj.onrender.com/api/expense/expensedel/'+expenses._id,{
           method: 'DELETE',
           headers: {
             'Authorization':`Bearer ${user.token}`

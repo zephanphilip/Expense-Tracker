@@ -23,7 +23,7 @@ export  const Home = () => {
 
   useEffect(() => {
     const fetchIncome = async () => {
-      const response = await fetch('http://localhost:3001/api/income/incomeget', {
+      const response = await fetch('https://expense-tracker-server-b8lj.onrender.com/api/income/incomeget', {
         headers: {
           'Authorization': `Bearer ${user.token}`
         }
@@ -35,7 +35,7 @@ export  const Home = () => {
     };
 
     const fetchExpense = async () => {
-      const response = await fetch('http://localhost:3001/api/expense/expenseget', {
+      const response = await fetch('https://expense-tracker-server-b8lj.onrender.com/api/expense/expenseget', {
         headers: {
           'Authorization': `Bearer ${user.token}`
         }
