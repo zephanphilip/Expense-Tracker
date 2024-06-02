@@ -28,12 +28,12 @@ app.use("/api/auth", userRouter);
 app.use("/api/income", incomeRouter);
 app.use("/api/expense", expenseRouter);
 
-// // Serve static files
-// app.use(express.static(path.join(__dirname, '../build')));
+// Serve static files
+app.use(express.static(path.join(__dirname, '../build')));
 
-// app.get('/*', function(req, res) { 
-//     res.sendFile(path.join(__dirname, '../build', 'index.html')); 
-// });
+app.get('/*', function(req, res) { 
+    res.sendFile(path.join(__dirname, '../build', 'index.html')); 
+});
 
 
 
