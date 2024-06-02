@@ -50,7 +50,7 @@ export  const Home = () => {
       fetchExpense();
       fetchIncome();
     }
-  }, []);
+  }, [dispatch, dispatchexpense, user]);
    // Calculate total incomes and expenses
    const totalIncome = incomes?.reduce((sum, income) => sum + income.iamount, 0);
    const totalExpense = expenses?.reduce((sum, expense) => sum + expense.eamount, 0);
