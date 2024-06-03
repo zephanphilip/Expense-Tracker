@@ -153,13 +153,13 @@ export const Auth = () => {
                     wrapperClass="mb-4"
                     value={username}
                     placeholder="Username"
-                    id="username"
+                    id="username1"
                     type="text"
                     onChange={(event) => setUsername(event.target.value)}
                     />
                     <MDBInput
                     wrapperClass="mb-4"
-                    id="password"
+                    id="password1"
                     value={password}
                     placeholder="Password"
                     type="password"
