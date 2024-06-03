@@ -5,11 +5,11 @@ import { Startup } from './pages/startup';
 import {Home} from "./pages/home";
 import {Add} from "./pages/add";
 import {Auth} from "./pages/auth";
-import {Admin} from "./pages/admin";
-import {Profile} from "./pages/profile";
-import {Profupdate} from "./pages/profupdate";
-import {Updateexpense} from "./pages/updateexpense";
-import {Updateincome} from "./pages/updateincome";
+// import {Admin} from "./pages/admin";
+// import {Profile} from "./pages/profile";
+// import {Profupdate} from "./pages/profupdate";
+// import {Updateexpense} from "./pages/updateexpense";
+// import {Updateincome} from "./pages/updateincome";
 import { useAuthContext } from './hooks/useAuthContext';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
