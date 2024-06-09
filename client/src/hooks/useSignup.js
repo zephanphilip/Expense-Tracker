@@ -15,7 +15,7 @@ export function useSignup() {
         const requestBody = { username, password, name, email };
         console.log('Request Body:', requestBody);
 
-        const response = await fetch('https://expense-tracker-server-b8lj.onrender.com/api/auth/register',
+        const response = await fetch('https://expense-tracker-server-b3fc.onrender.com/api/auth/register',
             {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

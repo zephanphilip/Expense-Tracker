@@ -16,7 +16,7 @@ function Incomedetails( {incomes} ) {
           return
         }
     
-        const response = await fetch('https://expense-tracker-server-b8lj.onrender.com/api/income/incomedel/'+incomes._id,{
+        const response = await fetch('https://expense-tracker-server-b3fc.onrender.com/api/income/incomedel/'+incomes._id,{
           method: 'DELETE',
           headers: {
             'Authorization':`Bearer ${user.token}`
