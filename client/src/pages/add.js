@@ -1,228 +1,192 @@
 import './add.css';
-import React,{ useState } from 'react'
+import React, { useState } from 'react';
 import { useIncomesContext } from '../hooks/useIncomeContext';
 import { useExpensesContext } from '../hooks/useExpenseContext';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { NavBar } from '../components/navbar';
-import { useNavigate } from "react-router-dom";
-import { Button } from '@mui/material';
-import {
-  MDBTabs,
-  MDBTabsItem,
-  MDBTabsLink,
-  MDBTabsContent,
-  MDBTabsPane
-} from 'mdb-react-ui-kit';
-import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
+import { useNavigate } from 'react-router-dom';
+import { Button, Tabs, Tab, TextField, Box, InputAdornment } from '@mui/material';
 
 export const Add = () => {
+  const { user } = useAuthContext();
+  const { dispatch } = useIncomesContext();
+  const { dispatch: dispatchexpense } = useExpensesContext();
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('Income');
 
-  const {user } = useAuthContext()
-  
-  const {dispatch} = useIncomesContext()
-  const {dispatch:dispatchexpense} = useExpensesContext()
+  const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue);
+  };
 
-  const [error, setError]= useState(null);
-  
+  const [incomeinfo, setIncomeinfo] = useState({
+    iamount: '',
+    idescription: '',
+  });
 
-    const navigate = useNavigate();
+  const [expenseinfo, setExpenseinfo] = useState({
+    eamount: '',
+    edescription: '',
+  });
 
+  const handleIncomeChange = (value) => {
+    setIncomeinfo((state) => ({
+      ...state,
+      ...value,
+    }));
+  };
 
-    const [loginRegisterActive, setLoginRegisterActive] = React.useState('Income');
-    const handleLoginRegisterClick = (tab) => {
-        setLoginRegisterActive(tab);
-    };
+  const handleExpenseChange = (value) => {
+    setExpenseinfo((state) => ({
+      ...state,
+      ...value,
+    }));
+  };
 
+  const handleIncomeSubmit = async (event) => {
+    event.preventDefault();
 
+    if (!user) {
+      setError('You must be logged in');
+      return;
+    }
 
-        const [incomeinfo, setIncomeinfo] = useState({
-          iamount: '',
-          idescription: "",
-  
-        });
-        const [expenseinfo, setExpenseinfo] = useState({
-            eamount: '',
-            edescription: "",
-            
-          });
+    const income = { ...incomeinfo };
 
-        const handleChange = React.useCallback((value) => {
-            setIncomeinfo(state => ({
-                ...state,
-                ...value,
-            }));
-        }, [setIncomeinfo]);
-        const handleChange2 = React.useCallback((value) => {
-            setExpenseinfo(state => ({
-                ...state,
-                ...value,
-            }));
-        }, [setExpenseinfo]);
+    const response = await fetch('https://expense-tracker-server-b3fc.onrender.com/api/income/incomeadd', {
+      method: 'POST',
+      body: JSON.stringify(income),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
 
-          const handleSubmit = async (event) => {
-            event.preventDefault();
+    const json = await response.json();
+    if (response.ok) {
+      setError(null);
+      console.log('New income added', json);
+      dispatch({ type: 'CREATE_INCOME', payload: json });
+      navigate('/home');
+    }
+  };
 
-            if(!user){
-              setError('you must be logged in')
-              return
+  const handleExpenseSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!user) {
+      setError('You must be logged in');
+      return;
+    }
+
+    const expense = { ...expenseinfo };
+
+    const response = await fetch('https://expense-tracker-server-b3fc.onrender.com/api/expense/expenseadd', {
+      method: 'POST',
+      body: JSON.stringify(expense),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+
+    const json = await response.json();
+    if (response.ok) {
+      setError(null);
+      console.log('New expense added', json);
+      dispatchexpense({ type: 'CREATE_EXPENSE', payload: json });
+      navigate('/home');
+    }
+  };
+
+  return (
+    <div>
+      <style>
+        {`
+          body {
+            background-color: #001C30;
+            margin: 0;
+            padding: 0;
           }
-
-          const income = {...incomeinfo}
-
-            const response = await fetch("https://expense-tracker-server-b3fc.onrender.com/api/income/incomeadd",
-                {
-                  method: 'POST',
-                  body: JSON.stringify(income),
-                  headers : {'Content-Type': 'application/json',
-                  'Authorization':`Bearer ${user.token}`
-                 }
-                 }
-              );
-
-              const json = await response.json();
-              if (response.ok){
-                  setError(null)
-                  console.log("new income added",json);
-                  dispatch({type: 'CREATE_INCOME', payload: json})
-                  navigate('/home');
-                }
-
-          };
-          const handleSubmit2 = async (event) => {
-            event.preventDefault();
-            if(!user){
-              setError('you must be logged in')
-              return
-          }
-
-
-            const response = await fetch("https://expense-tracker-server-b3fc.onrender.com/api/expense/expenseadd",
-                {
-                  method: 'POST',
-                  body: JSON.stringify(expenseinfo),
-                  headers : {'Content-Type': 'application/json',
-                  'Authorization':`Bearer ${user.token}`
-                 }
-                 }
-              );
-
-              const json = await response.json();
-              if (response.ok){
-                  setError(null)
-                  console.log("new expense added",json);
-                  dispatchexpense({type: 'CREATE_EXPENSE', payload: json})
-                  navigate('/home');
-                }
-
-          };
-
-    return (
-        <div >
-           <style>
-      {`
-        body {
-          background-color: #001C30;
-          margin: 0;
-          padding: 0;
-        }
-      `}
-    </style>
-        <NavBar/>
-        {/* <p style={{marginLeft:"5px",marginTop:"15px",fontSize:"40px",color:"#5A96E3", fontFamily:"sans-serif", fontWeight: "bold" }}>Add Your Income/Expenditure</p> */}
-       <div style={{marginTop:"100px"}}>
-        <div className='add' >
-        <MDBTabs pills justify className='mb-3' style={{padding:"10px"}}>
-            <MDBTabsItem>
-            <MDBTabsLink
-                onClick={() => handleLoginRegisterClick('Income')}
-                active={loginRegisterActive === 'Income'}
-            >
-                Income
-            </MDBTabsLink>
-            </MDBTabsItem>
-            <MDBTabsItem>
-            <MDBTabsLink
-                onClick={() => handleLoginRegisterClick('Expense')}
-                active={loginRegisterActive === 'Expense'}
-            >
-                Expense
-            </MDBTabsLink>
-            </MDBTabsItem>
-        </MDBTabs>
-
-        <MDBTabsContent style={{padding:"10px"}}>
-            <MDBTabsPane show={loginRegisterActive === 'Income'}>
-            <form method='Post' onSubmit={handleSubmit}>
-                {/* Income */}
-                <div>
-                <TextField fullWidth={true}
-                InputProps={{
-                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                }}
-                variant="filled"
-                onChange={e => handleChange({ iamount: e.target.value })} 
-                value={incomeinfo.iamount}
-                name='iamount' 
-                label='AMOUNT'  
-                className='mb-3' 
-                type='number' 
-                id='form7Example1'
+        `}
+      </style>
+      <NavBar />
+      <div style={{ marginTop: '100px' }}>
+        <div className='add'>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Tabs value={activeTab} onChange={handleTabChange} centered>
+              <Tab label="Income" value="Income" />
+              <Tab label="Expense" value="Expense" />
+            </Tabs>
+          </Box>
+          <Box sx={{ padding: '10px' }}>
+            {activeTab === 'Income' && (
+              <form method='post' onSubmit={handleIncomeSubmit}>
+                <TextField
+                  fullWidth
+                  InputProps={{
+                    startAdornment: <InputAdornment position="start">₹</InputAdornment>,
+                  }}
+                  variant="filled"
+                  onChange={(e) => handleIncomeChange({ iamount: e.target.value })}
+                  value={incomeinfo.iamount}
+                  name='iamount'
+                  label='Amount'
+                  className='mb-3'
+                  type='number'
+                  id='form7Example1'
                 />
-                </div>
-                <div>
-                
-                <TextField fullWidth={true}
-                className='mb-3' 
-                onChange={e => handleChange({ idescription: e.target.value })}  
-                value={incomeinfo.idescription} 
-                type='text' 
-                label='CATEGORY' 
-                name='idescription' 
-                id='form7Example2'  />
-                </div>
-                <Button variant="contained"  type='submit' className='mb-3'  sx={{backgroundColor:"#176B87",color:"white"}}>
-                ADD
+                <TextField
+                  fullWidth
+                  className='mb-3'
+                  onChange={(e) => handleIncomeChange({ idescription: e.target.value })}
+                  value={incomeinfo.idescription}
+                  type='text'
+                  label='Category'
+                  name='idescription'
+                  id='form7Example2'
+                />
+                <Button variant="contained" type='submit' className='mb-3' sx={{ backgroundColor: '#176B87', color: 'white' }}>
+                  Add
                 </Button>
                 {error && <div className='error'>{error}</div>}
-            </form>
-            </MDBTabsPane>
-            <MDBTabsPane show={loginRegisterActive === 'Expense'}>
-            <form method='Post' onSubmit={handleSubmit2}>
-                {/* Income */}
-                <TextField fullWidth={true}
-                InputProps={{
-                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                }}
-                variant="filled"
-                label="AMOUNT"
-                onChange={e => handleChange2({ eamount: e.target.value })} 
-                value={expenseinfo.iamount}
-                name='eamount' 
-                className='mb-3' 
-                type='number' 
-                id='form7Example1'/>
-               <TextField fullWidth={true}
-               label="CATEGORY"
-                className='mb-3' 
-                onChange={e => handleChange2({ edescription: e.target.value })}  
-                value={expenseinfo.edescription} 
-                type='text' 
-                name='edescription' 
-                id='form7Example2'  />
-                <Button variant="contained"  type='submit' className='mb-3' sx={{backgroundColor:"#176B87",color:"white"}} >
-                ADD
+              </form>
+            )}
+            {activeTab === 'Expense' && (
+              <form method='post' onSubmit={handleExpenseSubmit}>
+                <TextField
+                  fullWidth
+                  InputProps={{
+                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                  }}
+                  variant="filled"
+                  label="Amount"
+                  onChange={(e) => handleExpenseChange({ eamount: e.target.value })}
+                  value={expenseinfo.eamount}
+                  name='eamount'
+                  className='mb-3'
+                  type='number'
+                  id='form7Example1'
+                />
+                <TextField
+                  fullWidth
+                  label="Category"
+                  className='mb-3'
+                  onChange={(e) => handleExpenseChange({ edescription: e.target.value })}
+                  value={expenseinfo.edescription}
+                  type='text'
+                  name='edescription'
+                  id='form7Example2'
+                />
+                <Button variant="contained" type='submit' className='mb-3' sx={{ backgroundColor: '#176B87', color: 'white' }}>
+                  Add
                 </Button>
                 {error && <div className='error'>{error}</div>}
-            </form>
-            </MDBTabsPane>
-        </MDBTabsContent>
-        
+              </form>
+            )}
+          </Box>
         </div>
-        </div>
-        </div>
-    
-    );
-
+      </div>
+    </div>
+  );
 };
-
